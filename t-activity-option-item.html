@@ -1,0 +1,56 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html">
+<link rel="import" href="../t-shared-lib/t-date-behavior.html">
+<!--
+	A comment describing this element
+
+	Example:
+
+	    <my-elem></my-elem>
+
+	Example:
+
+	    <my-elem>
+	      <h2>Hello my-elem</h2>
+	    </my-elem>
+
+	@demo demo/index.html
+-->
+<dom-module id="t-activity-option-item">
+    <template>
+        <style include="iron-flex"></style>
+        <style include="travel-element-styles">
+	        :host {
+	            display: block;
+	        }
+            h3 {
+                margin: 10px;
+                border: solid black thin;
+            }
+        </style>        
+        <h3>[[option.name]]</h3>
+    </template>
+    <script>
+    	(function () {
+
+    		'use strict'
+
+		    Polymer({
+
+		        is: 't-activity-option-item',
+
+		        properties: {
+
+                    /*
+                     * <p>This property holds value of activity option</p>
+                     */		        	
+		        	option: {
+		        		type: Object		        		
+		        	}
+		        }
+		    });
+
+    	})();
+    </script>
+</dom-module>

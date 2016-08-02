@@ -1,0 +1,161 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html">
+<link rel="import" href="../t-shared-lib/t-date-behavior.html">
+<link rel="import" href="t-activity-option-list.html">
+<link rel="import" href="t-activity-single-avail-api.html">
+<!--
+A comment describing this element
+
+Example:
+
+    <t-activity-option-list-page></t-activity-option-list-page>
+
+Example:
+
+    <t-activity-option-list-page>
+      <h2>Hello t-activity-option-list-page</h2>
+    </t-activity-option-list-page>
+
+@demo demo/index.html
+-->
+<dom-module id="t-activity-option-list-page">
+    <template>
+        <style>
+	        :host {
+	            display: block;
+	        }
+        </style>
+
+        <t-activity-option-list options="[[itinerary.options]]"></t-activity-option-list>
+
+		<t-activity-single-avail-api
+            id="singleAvailApi" 
+            loading={{loading}} 
+            api-base-url="[[apiBaseUrl]]"
+            api-relative-url="api/activity/results/single" 
+            auth-token="[[authToken]]"
+            on-t-activity-single-avail-api-success="_onSingleAvailSuccess"
+            on-t-activity-single-avail-api-error="_onSingleAvailError">            	
+        </t-activity-single-avail-api>
+
+    </template>
+
+    <script>
+        (function () {
+
+            'use strict'
+
+            Polymer({
+
+                is: 't-activity-option-list-page',
+
+                behaviors: [
+                    TravelNxt.Behaviors.DateBehavior
+                ],
+
+                properties: {
+
+                    visible: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+
+                    /*
+                     * <p>This string is query string containing token value</p>
+                     */
+                    authToken: String,
+
+                    /*
+                     * <p>This property holds the value of api base URL</p>
+                     */
+                    apiBaseUrl: String,
+
+
+                    /*
+                     * <p>This property holds the value of web api URL format</p>
+                     */
+                    apiUrlFormat: String,
+
+
+                    /*
+                     * <p>This property holds the value of currency</p>
+                     */
+                    currency: {
+                        type: String,
+                        value: 'USD'
+                    },
+
+                    /*
+                     * <p>This property holds the value of searchId id</p>
+                     */
+                    searchId: {
+                        type: String
+                    },
+
+                    /*
+                     * <p>This property holds the value of selected itinerary id</p>
+                     */
+                    itineraryId: {
+                        type: String
+                    },
+
+                    /*
+                     * <p>This property holds the value of currency</p>
+                     */
+                    itinerary: {
+                    	type: Object,
+                        notify: true
+                    }
+                },
+
+                /*
+                 * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
+                 */
+                observers: [
+                    '_visibleChange(visible)',
+                    '_pageLoad(authToken, itineraryId)'
+                ],
+
+                /*
+                 * <p>observer function for page `visible` property</p>
+                */
+                _visibleChange: function (visible) {
+                    if (visible && (!this.itineraryId || !this.authToken || !this.searchId)) {
+                        this.fire('go-to-search');
+                    }
+                },
+
+                /*
+                 * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
+                 */
+                _pageLoad: function (authToken, itineraryId) {
+                    if (!itineraryId || !authToken || !this.searchId) {
+                        return;
+                    }
+
+                    this.$.singleAvailApi.getActivity({
+	                	searchId: this.searchId,
+	                	itineraryId: this.itineraryId
+                    });
+
+                },
+
+                _onSingleAvailSuccess: function (e) {
+                    if (!e.detail.inventory) {
+                        this.$.fareDetails.error = true;
+                        throw Error('failed to add itinerary in the cart!');
+                    }
+
+                    this.itinerary = e.detail.inventory;
+                },
+
+                _onSingleAvailError: function (e) {
+                	
+                }
+
+            });
+        })();                
+    </script>
+</dom-module>
