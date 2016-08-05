@@ -27,6 +27,8 @@ Example:
 	        }
         </style>
 
+        <content></content>
+
         <t-activity-option-list options="[[itinerary.options]]"></t-activity-option-list>
 
 		<t-activity-single-avail-api
@@ -110,6 +112,10 @@ Example:
                     }
                 },
 
+                listeners: {
+                    'option-selected': '_onOptionSelect'
+                },
+
                 /*
                  * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
                  */
@@ -153,6 +159,12 @@ Example:
 
                 _onSingleAvailError: function (e) {
                 	
+                },
+
+                _onOptionSelect: function (e) {
+                    if (e.detail) {
+                        this.fire('option-select', e.detail);
+                    }
                 }
 
             });
