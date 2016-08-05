@@ -29,7 +29,9 @@ Example:
 
         <content></content>
 
-        <t-activity-option-list options="[[itinerary.options]]"></t-activity-option-list>
+        <template id="list" is="dom-repeat" items="[[itinerary.options]]">
+            <t-activity-option-item option=[[item]]></t-activity-option-item>
+        </template>
 
 		<t-activity-single-avail-api
             id="singleAvailApi" 

@@ -82,7 +82,7 @@
 	        			class="flex margin-bottom-medium"
 	        			min="[[item.minQuantity]]"
 	        			max="[[item.maxQuantity]]"
-	        			plural-label="{{_getPluralLabel(item.passengerType)}}"
+	        			plural-label="[[item.multiplePassengerType]]"
 	        			singular-label="[[item.passengerType]]"
 	        			secondary-label="{{_getSecondaryLabel(item)}}"
 	        			count="{{item.quantity}}"
@@ -245,13 +245,6 @@
 			        collapseIcon.icon 	= collapseIcon.icon === 'icons:expand-more'
 										? 'icons:expand-less'
 										: 'icons:expand-more'
-			    },
-
-			    _getPluralLabel: function (type) {
-			    	if (type.toLowerCase() === 'child') {
-			    		return 'Children';
-			    	}
-			    	return type + 's';
 			    },
 
 			    _getSecondaryLabel: function (item) {
