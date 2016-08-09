@@ -72,7 +72,7 @@
                 	label="Date"
                 	class="margin-bottom-large"
                 	error-message="Select date" 
-                	selected-item="{{_selectdDate}}" 
+                	selected-item="{{_selectedDate}}"
                 	dropdown-array="[[_dates]]" 
                 	required>
                 </t-dropdown>
@@ -153,7 +153,7 @@
 					/*
                      * <p>This property sotres the value of selected date of current option</p>
                      */
-		        	_selectdDate: { 
+		        	_selectedDate: { 
 		        		type: String,
 		        		observer:'_selectedDateChanged'
 		        	},
@@ -171,6 +171,10 @@
 			            }
 			        },
 		        },
+
+		        observers: [
+                    '_updateSelectedDate(option.selectedDateTime.date)'
+		        ],
 
 		        _pageLoad: function () {
 		        	this._getDates();
@@ -225,18 +229,24 @@
 
 		        	this.fire('option-selected', {
 		        		id: this.option.id,
-		        		selectedDate: this._selectdDate,
+		        		selectedDate: this._selectedDate,
 		        		paxCount: _paxCount
 		        	});
 		        },
 
 		        _selectedDateChanged: function () {
-		        	if (!this._selectdDate) {
+		        	if (!this._selectedDate) {
 		        		return;
 		        	}
 		        	this.option.selectedDateTime = this.option.availableOn.find(function (item) {
-		        		return item.date.toLowerCase() === this._selectdDate.toLowerCase();
+		        		return item.date.toLowerCase() === this._selectedDate.toLowerCase();
 		        	}, this);
+		        },
+
+		        _updateSelectedDate: function (date) {
+		            if (date) {
+		                this._selectedDate = date;
+		            }
 		        },
 
 			    _toggle: function() {
