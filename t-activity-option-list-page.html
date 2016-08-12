@@ -33,7 +33,10 @@ Example:
         <content></content>
 
         <template id="list" is="dom-repeat" items="[[itinerary.options]]">
-            <t-activity-option-item option=[[item]]></t-activity-option-item>
+            <t-activity-option-item 
+                option=[[item]]
+                on-option-selected="_onOptionSelect">
+            </t-activity-option-item>
         </template>
 
         <t-activity-single-avail-api
@@ -82,10 +85,6 @@ Example:
                         type: Object,
                         notify: true
                     }
-                },
-
-                listeners: {
-                    'option-selected': '_onOptionSelect'
                 },
 
                 /*

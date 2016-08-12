@@ -126,7 +126,7 @@
                      */
 		        	option: {
 		        		type: Object,
-		        		observer:'_pageLoad'
+		        		observer:'__pageLoad'
 		        	},
 
 					/*
@@ -176,7 +176,7 @@
                     '_updateSelectedDate(option.selectedDateTime.date)'
 		        ],
 
-		        _pageLoad: function () {
+		        __pageLoad: function () {
 		        	this._getDates();
 		        	this._getTotalPrice();
 		        },
@@ -227,11 +227,7 @@
 		        		return;
 		        	}
 
-		        	this.fire('option-selected', {
-		        		id: this.option.id,
-		        		selectedDate: this._selectedDate,
-		        		paxCount: _paxCount
-		        	});
+		        	this.fire('option-selected', this.option);
 		        },
 
 		        _selectedDateChanged: function () {
