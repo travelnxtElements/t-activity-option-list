@@ -1,15 +1,13 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../t-text-container/travel-element-styles.html">
-<link rel="import" href="../t-shared-lib/t-date-behavior.html">
 <link rel="import" href="../t-sessionstorage/t-sessionstorage.html">
 <link rel="import" href="t-activity-single-avail-api.html">
 <link rel="import" href="../t-behavior/t-page-behavior.html">
 <link rel="import" href="../t-behavior/t-activity-page-behavior.html">
 <link rel="import" href="t-activity-option-item.html">
-<link rel="import" href="../t-carousel/t-image-carousel.html">
-<link rel="import" href="../iron-collapse/iron-collapse.html">
-<link rel="import" href="../juicy-html/juicy-html.html">
+<link rel="import" href="t-activity-more-info.html">
+<link rel="import" href="t-activity-summary.html">
 <!--
 A comment describing this element
 
@@ -26,6 +24,7 @@ Example:
 @demo demo/index.html
 -->
 <dom-module id="t-activity-option-list-page">
+
     <template>
         <style include="iron-flex"></style>
         <style include="iron-flex-alignment"></style>
@@ -56,31 +55,11 @@ Example:
             height="200">
         </t-image-carousel>
 
-        <!-- t-activity-summary -->
-        <div class="section-small">
-            <div on-tap="_toggleDesc">
-                <div class="layout horizontal">
-                    <div class="font-semi self-center">
-                        Description
-                    </div>
-                    <div class="flex"></div>
-                    <div class="secondary-text text-right">
-                        <iron-icon id="collapseIconDesc" icon="[[collapseIcon.expand]]"></iron-icon>
-                    </div>
-                </div>
-            </div>
-
-            <iron-collapse id="collapseDesc">
-                <div class="secondary-text">
-                    <template 
-                        is="juicy-html" 
-                        content$="[[itinerary.description]]">                        
-                    </template>
-                </div>            
-            </iron-collapse>
-
-            <div class="margin-bottom-medium"></div>
-        </div>
+        <template is="dom-if" if="[[itinerary.description]]">
+            <t-activity-summary
+                description="[[itinerary.description]]">                    
+            </t-activity-summary>
+        </template>
 
         <div class="section-small">
             <div class="layout horizontal">
@@ -89,7 +68,6 @@ Example:
                 </div>
             </div>
         </div>
-        <!-- t-activity-summary ends-->
 
         <template id="list" is="dom-repeat" items="[[itinerary.options]]">
             <t-activity-option-item 
@@ -98,30 +76,11 @@ Example:
             </t-activity-option-item>
         </template>
 
-        <!-- t-activity-more-info -->
-        <div class="section-small">
-            <div on-tap="_toggleInfo">
-                <div class="layout horizontal">
-                    <div class="font-semi">
-                        SCHEDULE
-                    </div>
-                    <div class="flex"></div>
-                    <div class="secondary-text text-right">
-                        <iron-icon id="collapseIconInfo" icon="[[collapseIcon.expand]]"></iron-icon>
-                    </div>
-                </div>
-            </div>
-
-            <iron-collapse id="collapseInfo">
-                <div class="secondary-text">
-                    <template 
-                        is="juicy-html" 
-                        content$="[[itinerary.schedule]]">                        
-                    </template>
-                </div>            
-            </iron-collapse>
-        </div>
-        <!-- t-activity-more-info ends-->
+        <t-activity-more-info
+            additional-text="[[itinerary.additionalText]]"
+            legal-text="[[itinerary.legalText]]"
+            schedule="[[itinerary.schedule]]">                
+        </t-activity-more-info>
 
         <t-activity-single-avail-api
             id="singleAvailApi" 
@@ -139,7 +98,6 @@ Example:
             api-url-format="[[apiUrlFormat]]"
             on-t-sessionstorage-load-success="_onSessionLoad">
         </t-sessionstorage>
-
     </template>
 
     <script>
@@ -154,10 +112,6 @@ Example:
                 behaviors: [
                     TravelNxt.Behaviors.PageBehavior,
                     TravelNxt.Behaviors.ActivityPageBehavior
-                ],
-
-                behaviors: [
-                    TravelNxt.Behaviors.DateBehavior
                 ],
 
                 properties: {
@@ -235,14 +189,6 @@ Example:
                         this.$.sessionStore.save();
                         this.fire('option-select', e.detail);
                     }
-                },
-
-                _toggleDesc: function() {
-                    this.$.collapseDesc.toggle();
-                    var collapseIconDesc = this.$.collapseIconDesc;
-                    collapseIconDesc.icon   = collapseIconDesc.icon === 'icons:expand-more'
-                                        ? 'icons:expand-less'
-                                        : 'icons:expand-more';
                 },
 
                 _toggleInfo: function() {

@@ -1,0 +1,102 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html">
+<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../juicy-html/juicy-html.html">
+<link rel="import" href="../t-carousel/t-image-carousel.html">
+<!--
+A comment describing this element
+
+Example:
+
+    <t-activity-summary></t-activity-summary>
+
+Example:
+
+    <t-activity-summary>
+    </t-activity-summary>
+
+@demo demo/index.html
+-->
+
+<dom-module id="t-activity-summary">
+	<template>
+        <style include="iron-flex"></style>
+        <style include="travel-element-styles">
+			:host {
+				display: block;
+                font-family: var(--header-font-family, --primary-font-family);
+                font-size: var(--font-14, 14px);
+			}
+		</style>
+
+        <div class="section-small">
+            <div on-tap="_toggleDesc">
+                <div class="layout horizontal">
+                    <div class="font-semi self-center">
+                        Description
+                    </div>
+                    <div class="flex"></div>
+                    <div class="secondary-text text-right">
+                        <iron-icon id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
+                    </div>
+                </div>
+            </div>
+            <iron-collapse id="collapse">
+                <div class="secondary-text">
+                    <template 
+                        is="juicy-html" 
+                        content$="[[description]]">                        
+                    </template>
+                </div>            
+            </iron-collapse>
+        </div>
+		
+	</template>
+	<script>
+        (function () {
+
+            'use strict'
+
+			Polymer({
+
+				is: 't-activity-summary',
+
+				properties: {
+
+	                /**
+	                 * Description property displayed in juicy html template
+	                 * It can have html template in it
+	                */
+					description: {
+						type: String
+					},
+
+	                /**
+	                 * Stores possible values of collapse icons.
+	                */
+	                collapseIcon: {
+	                    type: Object,
+	                    value: function() {
+	                        return {
+	                            expand: 'icons:expand-more',
+	                            collapse: 'icons:expand-less'
+	                        };
+	                    }
+	                }
+				},
+
+                /**
+                 * toggles collapse state
+                */				
+                _toggleDesc: function() {
+                    this.$.collapse.toggle();
+                    var collapseIcon = this.$.collapseIcon;
+                    collapseIcon.icon   = collapseIcon.icon === 'icons:expand-more'
+                                        ? 'icons:expand-less'
+                                        : 'icons:expand-more';
+                }
+			});
+		})();
+	</script>
+</dom-module>

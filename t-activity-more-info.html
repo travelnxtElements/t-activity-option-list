@@ -1,0 +1,169 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html">
+<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../juicy-html/juicy-html.html">
+<!--
+A comment describing this element
+
+Example:
+
+    <t-activity-more-info></t-activity-more-info>
+
+Example:
+
+    <t-activity-more-info>
+    </t-activity-more-info>
+
+@demo demo/index.html
+-->
+
+<dom-module id="t-activity-more-info">
+	<template>
+        <style include="iron-flex"></style>
+        <style include="travel-element-styles">
+			:host {
+				display: block;
+                font-family: var(--header-font-family, --primary-font-family);
+                font-size: var(--font-14, 14px);
+			}
+		</style>
+
+        <template is="dom-if" if="[[additionalText]]">
+            <div class="section-small">
+                <div on-tap="_toggle('Info')">
+                    <div class="layout horizontal">
+                        <div class="font-semi">
+                            KNOW BEFORE YOU BOOK
+                        </div>
+                        <div class="flex"></div>
+                        <div class="secondary-text text-right">
+                            <iron-icon id="collapseIconInfo" icon="[[collapseIcon.expand]]"></iron-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <iron-collapse id="collapseInfo" opened>
+                    <div class="secondary-text">
+                        <template 
+                            is="juicy-html" 
+                            content$="[[additionalText]]">                        
+                        </template>
+                    </div>            
+                </iron-collapse>
+            </div>
+        </template>
+
+        <template is="dom-if" if="[[legalText]]">
+            <div class="section-small">
+                <div on-tap="_toggle('Policy')">
+                    <div class="layout horizontal">
+                        <div class="font-semi">
+                            POLICIES
+                        </div>
+                        <div class="flex"></div>
+                        <div class="secondary-text text-right">
+                            <iron-icon id="collapseIconPolicy" icon="[[collapseIcon.expand]]"></iron-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <iron-collapse id="collapsePolicy" opened>
+                    <div class="secondary-text">
+                        <template 
+                            is="juicy-html" 
+                            content$="[[legalText]]">                        
+                        </template>
+                    </div>            
+                </iron-collapse>
+            </div>
+        </template>
+
+        <template is="dom-if" if="[[schedule]]">
+            <div class="section-small">
+                <div on-tap="_toggle('Schedule')">
+                    <div class="layout horizontal">
+                        <div class="font-semi">
+                            SCHEDULE
+                        </div>
+                        <div class="flex"></div>
+                        <div class="secondary-text text-right">
+                            <iron-icon id="collapseIconSchedule" icon="[[collapseIcon.expand]]"></iron-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <iron-collapse id="collapseSchedule" opened>
+                    <div class="secondary-text">
+                        <template 
+                            is="juicy-html" 
+                            content$="[[schedule]]">                        
+                        </template>
+                    </div>            
+                </iron-collapse>
+            </div>
+        </template>		
+	</template>
+	<script>
+        (function () {
+
+            'use strict'
+
+			Polymer({
+
+				is: 't-activity-more-info',
+
+				properties: {
+
+	                /**
+	                 * Description property displayed in juicy html template
+	                 * It can have html template in it
+	                */
+					additionalText: {
+						type: String
+					},
+
+	                /**
+	                 * Policy property displayed in juicy html template
+	                 * It can have html template in it
+	                */
+					legalText: {
+						type: String
+					},
+
+	                /**
+	                 * Schedule property displayed in juicy html template
+	                 * It can have html template in it
+	                */
+					schedule: {
+						type: String
+					},
+
+	                /**
+	                 * Stores possible values of collapse icons.
+	                */
+	                collapseIcon: {
+	                    type: Object,
+	                    value: function() {
+	                        return {
+	                            expand: 'icons:expand-more',
+	                            collapse: 'icons:expand-less'
+	                        };
+	                    }
+	                }
+				},
+
+                /**
+                 * toggles collapse state
+                */				
+                f: function(type) {
+                    this.$[collapse + type].toggle();
+                    var collapseIcon = this.$[collapseIcon + type];
+                    collapseIcon.icon   = collapseIcon.icon === 'icons:expand-more'
+                                        ? 'icons:expand-less'
+                                        : 'icons:expand-more';
+                }
+			});
+		})();
+	</script>
+</dom-module>
