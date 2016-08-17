@@ -31,7 +31,7 @@ Example:
 
         <template is="dom-if" if="[[additionalText]]">
             <div class="section-small">
-                <div on-tap="_toggle('Info')">
+                <div on-tap="_toggle" data-type="Info">
                     <div class="layout horizontal">
                         <div class="font-semi">
                             KNOW BEFORE YOU BOOK
@@ -43,7 +43,7 @@ Example:
                     </div>
                 </div>
 
-                <iron-collapse id="collapseInfo" opened>
+                <iron-collapse id="collapseInfo">
                     <div class="secondary-text">
                         <template 
                             is="juicy-html" 
@@ -56,7 +56,7 @@ Example:
 
         <template is="dom-if" if="[[legalText]]">
             <div class="section-small">
-                <div on-tap="_toggle('Policy')">
+                <div on-tap="_toggle" data-type="Policy">
                     <div class="layout horizontal">
                         <div class="font-semi">
                             POLICIES
@@ -68,7 +68,7 @@ Example:
                     </div>
                 </div>
 
-                <iron-collapse id="collapsePolicy" opened>
+                <iron-collapse id="collapsePolicy">
                     <div class="secondary-text">
                         <template 
                             is="juicy-html" 
@@ -81,7 +81,7 @@ Example:
 
         <template is="dom-if" if="[[schedule]]">
             <div class="section-small">
-                <div on-tap="_toggle('Schedule')">
+                <div on-tap="_toggle" data-type="Schedule">
                     <div class="layout horizontal">
                         <div class="font-semi">
                             SCHEDULE
@@ -93,7 +93,7 @@ Example:
                     </div>
                 </div>
 
-                <iron-collapse id="collapseSchedule" opened>
+                <iron-collapse id="collapseSchedule">
                     <div class="secondary-text">
                         <template 
                             is="juicy-html" 
@@ -156,9 +156,13 @@ Example:
                 /**
                  * toggles collapse state
                 */				
-                f: function(type) {
-                    this.$[collapse + type].toggle();
-                    var collapseIcon = this.$[collapseIcon + type];
+                _toggle: function(e) {
+
+                	//type to toggle clicked collpase section
+                	var type = e.currentTarget.getAttribute('data-type');
+                	
+                    Polymer.dom(this.root).querySelector("#collapse" + type).toggle();
+                    var collapseIcon = Polymer.dom(this.root).querySelector("#collapseIcon" + type);
                     collapseIcon.icon   = collapseIcon.icon === 'icons:expand-more'
                                         ? 'icons:expand-less'
                                         : 'icons:expand-more';
