@@ -47,17 +47,11 @@ Example:
 
         <content></content>
 
-        <t-image-carousel
-            light-box
-            loading-icon="maps:hotel"
-            zoomed="{{imgzoomed}}"
-            data="[[itinerary.photoUrls]]" 
-            height="200">
-        </t-image-carousel>
-
         <template is="dom-if" if="[[itinerary.description]]">
             <t-activity-summary
-                description="[[itinerary.description]]">                    
+                description="[[itinerary.description]]"
+                photo-urls="[[itinerary.photoUrls]]"
+                default-icon="[[activityIcon]]">
             </t-activity-summary>
         </template>
 

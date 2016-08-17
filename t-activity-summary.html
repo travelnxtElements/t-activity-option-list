@@ -30,6 +30,13 @@ Example:
 			}
 		</style>
 
+        <t-image-carousel
+            light-box
+            loading-icon="[[defaultIcon]]"
+            data="[[photoUrls]]" 
+            height="200">
+        </t-image-carousel>
+
         <div class="section-small">
             <div on-tap="_toggleDesc">
                 <div class="layout horizontal">
@@ -64,12 +71,27 @@ Example:
 
 				properties: {
 
+	                /*
+	                 * <p>This holds the value of default image icon</p>
+	                 */
+	                defaultIcon: {
+	                    type: String,
+	                    value: 'places:pool'
+	                },
+
 	                /**
 	                 * Description property displayed in juicy html template
 	                 * It can have html template in it
 	                */
 					description: {
 						type: String
+					},
+
+	                /**
+	                 * Array of photo URLs
+	                */
+					photoUrls: {
+						type: Array
 					},
 
 	                /**
