@@ -136,14 +136,14 @@ Example:
                  * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
                  */
                 observers: [
-                    '_visibleChange(visible)',
-                    '_pageLoad(authToken, itineraryId, apiBaseUrl)'
+                    '__visibleChange(visible)',
+                    '__pageLoad(authToken, itineraryId, apiBaseUrl)'
                 ],
 
                 /*
                  * <p>observer function for page `visible` property</p>
                 */
-                _visibleChange: function (visible) {
+                __visibleChange: function (visible) {
                     if (visible && (!this.itineraryId || !this.authToken || !this.searchId || !this.apiBaseUrl)) {
                         this.fire('go-to-search');
                     }
@@ -152,7 +152,7 @@ Example:
                 /*
                  * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
                  */
-                _pageLoad: function (authToken, itineraryId, apiBaseUrl) {
+                __pageLoad: function (authToken, itineraryId, apiBaseUrl) {
                     if (!itineraryId || !authToken || !this.searchId || !apiBaseUrl) {
                         return;
                     }
