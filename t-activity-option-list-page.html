@@ -118,17 +118,12 @@ Example:
                         notify: true
                     },
 
-                    /**
-                     * Stores possible values of collapse icons.
-                     */
-                    collapseIcon: {
-                        type: Object,
-                        value: function() {
-                            return {
-                                expand: 'icons:expand-more',
-                                collapse: 'icons:expand-less'
-                            };
-                        }
+                    /*
+                     * <p>Private search id copy to detect search id change from search page</p>
+                    */
+                    _itineraryId: {
+                        type: String,
+                        readOnly: true
                     }
                 },
 
@@ -136,26 +131,24 @@ Example:
                  * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
                  */
                 observers: [
-                    '__visibleChange(visible)',
-                    '__pageLoad(authToken, itineraryId, apiBaseUrl)'
+                    '__pageLoad(visible, itineraryId)'
                 ],
-
-                /*
-                 * <p>observer function for page `visible` property</p>
-                */
-                __visibleChange: function (visible) {
-                    if (visible && (!this.itineraryId || !this.authToken || !this.searchId || !this.apiBaseUrl)) {
-                        this.fire('go-to-search');
-                    }
-                },
 
                 /*
                  * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
                  */
-                __pageLoad: function (authToken, itineraryId, apiBaseUrl) {
-                    if (!itineraryId || !authToken || !this.searchId || !apiBaseUrl) {
+                __pageLoad: function (visible, itineraryId) {
+                    if (!visible || !itineraryId) {
                         return;
                     }
+
+                    //route has been called again, data is already present
+                    if (this._itineraryId === itineraryId) {
+                        return;
+                    }
+
+                    //update private copy
+                    this._set_itineraryId(itineraryId);
 
                     this.$.singleAvailApi.getActivity({
                         searchId: this.searchId,
@@ -183,14 +176,6 @@ Example:
                         this.$.sessionStore.save();
                         this.fire('option-select', e.detail);
                     }
-                },
-
-                _toggleInfo: function() {
-                    this.$.collapseInfo.toggle();
-                    var collapseIconInfo = this.$.collapseIconInfo;
-                    collapseIconInfo.icon   = collapseIconInfo.icon === 'icons:expand-more'
-                                        ? 'icons:expand-less'
-                                        : 'icons:expand-more';
                 }
 
             });
