@@ -86,6 +86,12 @@ Example:
             </t-activity-option-item>
         </template>
 
+        <template is="dom-if" if="[[_moreOptions.length]]">
+            <div class="section-small border-top border-bottom" on-tap="_showAllOptions">
+                <div class="text-center link-style">[[_moreOptions.length]] MORE OPTIONS</div>
+            </div>            
+        </template>
+
         <t-activity-more-info
             additional-text="[[itinerary.additionalText]]"
             legal-text="[[itinerary.legalText]]"
@@ -131,7 +137,7 @@ Example:
                 properties: {
 
                     /*
-                     * <p>This property holds the value of currency</p>
+                     * This property holds the value of currency
                      */
                     itinerary: {
                         type: Object,
@@ -139,7 +145,7 @@ Example:
                     },
 
                     /*
-                     * <p>Private search id copy to detect search id change from search page</p>
+                     * Private search id copy to detect search id change from search page
                     */
                     _itineraryId: {
                         type: String,
@@ -153,11 +159,24 @@ Example:
                     _pricingRequestParams: {
                         type: Object,
                         notify: true
+                    },
+                    
+                    /*
+                     * These options will get populated upon clicking more option link
+                    */
+                    _moreOptions: {
+                        type: Array,
+                        value: []
+                    },
+
+                    noOfOptionsVisible: {
+                        type: Number,
+                        value: 4
                     }
                 },
 
                 /*
-                 * <p>event handler to call policies</p>
+                 * event handler to call policies
                 */
                 _initiatePolicyCall: function (event) {
                     var option = event.detail;
@@ -183,14 +202,14 @@ Example:
                 },
 
                 /*
-                 * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
+                 * Event handler method called when `t-car-search-api-error` event is fired
                  */
                 observers: [
                     '__pageLoad(visible, itineraryId)'
                 ],
 
                 /*
-                 * <p>Event handler method called when `t-car-search-api-error` event is fired</p>
+                 * Event handler method called when `t-car-search-api-error` event is fired
                  */
                 __pageLoad: function (visible, itineraryId) {
                     if (!visible || !itineraryId) {
@@ -201,6 +220,8 @@ Example:
                     if (this._itineraryId === itineraryId) {
                         return;
                     }
+
+                    this._moreOptions = [];
 
                     //update private copy
                     this._set_itineraryId(itineraryId);
@@ -220,8 +241,22 @@ Example:
                         this.$.fareDetails.error = true;
                         throw Error('failed to add itinerary in the cart!');
                     }
-
+                    this._setupMoreOptions(e.detail.inventory);
                     this.itinerary = e.detail.inventory;
+                },
+
+                _setupMoreOptions: function (itinerary) {
+                    if (!itinerary.options || !itinerary.options.length) {
+                        return;
+                    }
+
+                    if (this.noOfOptionsVisible && itinerary.options.length <= this.noOfOptionsVisible) {
+                        return;
+                    }
+
+                    this._moreOptions = itinerary.options.slice(this.noOfOptionsVisible);
+
+                    itinerary.options = itinerary.options.splice(0, this.noOfOptionsVisible);
                 },
 
                 _onSingleAvailError: function (e) {
@@ -233,6 +268,20 @@ Example:
                         this.$.sessionStore.value = e.detail;
                         this.$.sessionStore.save();
                         this.fire('option-select', e.detail);
+                    }
+                },
+
+                _showAllOptions: function () {
+                    if (this.itinerary.options) {
+                        this.itinerary.options.push.apply(this.itinerary.options, this._moreOptions);
+                        this.$.list.render();
+
+                        //the rendered list is not providing item property to element component, hence this work around
+                        var optionItems = this.querySelectorAll('t-activity-option-item');
+                        for (var i = 0; i < this.itinerary.options.length; i++) {
+                            optionItems[i].option = this.itinerary.options[i];
+                        }
+                        this._moreOptions = [];
                     }
                 }
 
