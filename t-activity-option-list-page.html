@@ -55,6 +55,22 @@ Example:
             </t-activity-summary>
         </template>
 
+        <t-policy id="policy"
+            external-link
+            label="Policies"
+            api-relative-url="api/ShoppingCart/add"
+            api-base-url="[[apiBaseUrl]]"
+            auth-token="[[authToken]]"
+            policy-request="[[policyRequest]]"
+            inventory-id="[[itineraryId]]">
+        </t-policy>
+
+        <t-activity-pricing-translator
+             id="pricingTranslator"
+             input="[[_pricingRequestParams]]"
+             output="{{policyRequest}}">
+        </t-activity-pricing-translator>
+
         <div class="section-small">
             <div class="layout horizontal">
                 <div class="font-bold options self-center">
@@ -108,6 +124,10 @@ Example:
                     TravelNxt.Behaviors.ActivityPageBehavior
                 ],
 
+                listeners: {
+                    'policy-click': '_initiatePolicyCall'
+                },
+
                 properties: {
 
                     /*
@@ -124,7 +144,41 @@ Example:
                     _itineraryId: {
                         type: String,
                         readOnly: true
+                    },
+
+                    /**
+                     * _pricingRequestParams is an object containing properties for basic pricing call
+                     * @type {Object}
+                     */
+                    _pricingRequestParams: {
+                        type: Object,
+                        notify: true
                     }
+                },
+
+                /*
+                 * <p>event handler to call policies</p>
+                */
+                _initiatePolicyCall: function (event) {
+                    var option = event.detail;
+
+                    var pricingRequestObj = {
+                        searchId: this.searchId,
+                        passengers: [],
+                        optionId: option.id,
+                        selectedDate: option.selectedDateTime
+                    };
+
+                    for (var i = 0; i < option.passengerTypesInfo.length; i++) {
+                        var passenger = option.passengerTypesInfo[i];
+                        pricingRequestObj.passengers.push({
+                            type: passenger.passengerType,
+                            count: passenger.quantity
+                        });
+                    }
+
+                    this._pricingRequestParams = pricingRequestObj;
+                    this.$.policy.initiatePolicyCall();
                 },
 
                 /*
@@ -155,6 +209,9 @@ Example:
                         itineraryId: this.itineraryId
                     });
 
+                    //initiate policy component
+                    this.$.policy.initiatePolicyView();
+
                 },
 
                 _onSingleAvailSuccess: function (e) {
@@ -179,6 +236,6 @@ Example:
                 }
 
             });
-        })();                
+        })();
     </script>
 </dom-module>

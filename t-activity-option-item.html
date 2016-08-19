@@ -230,6 +230,14 @@
 		        	this.fire('option-selected', this.option);
 		        },
 
+		        /**
+		         * This method fires an event when policy link is clicked
+		         * @return {Void}
+		         */
+		        _policyClick: function () {
+                    this.fire('policy-click', this.option);
+                },
+
 		        _selectedDateChanged: function () {
 		        	if (!this._selectedDate) {
 		        		return;
