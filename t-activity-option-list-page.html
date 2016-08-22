@@ -71,13 +71,15 @@ Example:
              output="{{policyRequest}}">
         </t-activity-pricing-translator>
 
-        <div class="section-small">
-            <div class="layout horizontal">
-                <div class="font-bold options self-center">
-                    Options
+        <template is="dom-if" if="[[itinerary.options.length]]">
+            <div class="section-small">
+                <div class="layout horizontal">
+                    <div class="font-bold options self-center">
+                        Options
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
 
         <template id="list" is="dom-repeat" items="[[itinerary.options]]">
             <t-activity-option-item 
@@ -160,7 +162,7 @@ Example:
                         type: Object,
                         notify: true
                     },
-                    
+
                     /*
                      * These options will get populated upon clicking more option link
                     */

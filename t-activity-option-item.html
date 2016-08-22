@@ -262,7 +262,7 @@
 			    },
 
 			    _getSecondaryLabel: function (item) {
-			    	if (item.minAge && item.maxAge) {
+			    	if ((item.minAge || item.minAge === 0) && item.maxAge) {
 			    		return '(' + item.minAge + '-' + item.maxAge + ' yrs)';
 			    	}
 			    },
