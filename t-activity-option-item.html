@@ -299,7 +299,7 @@
 			    		return;
 			    	}
 
-			    	return 'x ' + this._currency + ' ' + price.money.amount;
+			    	return 'x ' + this._currency + ' ' + this._roundOff(price.money.amount);
 			    },
 
 			    validate: function () {
