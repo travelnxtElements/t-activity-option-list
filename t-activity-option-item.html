@@ -40,6 +40,9 @@
 	        .total {
 	            font-size: var(--font-18, 18px);
 	        }
+	        .price-secondary-label{
+	        	font-size: var(--font-12, 12px);
+	        }
 	        .min-width {
 	        	min-width: 10px;
 	        }
@@ -88,6 +91,9 @@
 	        			count="{{item.quantity}}"
 	        			id="[[item.passengerType]]Count"
 	        			on-count-changed="_onPaxCountChange">
+	        			<span class="primary-text font-semi price-secondary-label">
+	        				{{_getPaxPrice(item.fare.components)}}
+	        			</span>
 	    			</t-stepper>
 	        	</template>
 
@@ -209,6 +215,8 @@
 	        				return item.type.toLowerCase() === 'totalfare';
 	        			});
 
+	        			paxInfo.totalAmount = price.money.amount;
+
 	        			_paxCount += paxInfo[i].quantity;
 	        			totalPrice += (price.money.amount * paxInfo[i].quantity);
 		        	}
@@ -269,6 +277,22 @@
 
 			    _roundOff:function (value) {
 			        return value.toFixed(2);
+			    },
+
+			    _getPaxPrice: function (components) {
+			    	if (!components || !components.length) {
+			    		return;
+			    	}
+
+			    	var price = components.find(function (item) {
+        				return item.type.toLowerCase() === 'totalfare';
+			    	});
+
+			    	if (!price) {
+			    		return;
+			    	}
+
+			    	return 'x ' + this._currency + ' ' + price.money.amount;
 			    },
 
 			    validate: function () {
