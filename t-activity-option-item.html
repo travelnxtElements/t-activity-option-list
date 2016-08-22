@@ -9,18 +9,13 @@
 <link rel="import" href="../t-dropdown/t-dropdown.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-signals/iron-signals.html">
 <!--
 	A comment describing this element
 
 	Example:
 
-	    <my-elem></my-elem>
-
-	Example:
-
-	    <my-elem>
-	      <h2>Hello my-elem</h2>
-	    </my-elem>
+	    <t-activity-option-item></t-activity-option-item>
 
 	@demo demo/index.html
 -->
@@ -47,6 +42,8 @@
 	        	min-width: 10px;
 	        }
         </style>
+
+        <iron-signals on-iron-signal-collapse-activity-option="_collapseOption"></iron-signals>
     
     	<div class="section-small">
 			
@@ -261,7 +258,17 @@
 		            }
 		        },
 
+		        _collapseOption: function (e, detail, sender) {
+		        	if (detail && detail === this.option.id) {
+		        		return;
+		        	}
+
+		        	this.$.collapse.opened = false;
+		        	this.$.collapseIcon.icon = 'icons:expand-more';
+		        },
+
 			    _toggle: function() {
+		    		this.fire('iron-signal', {name: "collapse-activity-option", data: this.option.id});
 			        this.$.collapse.toggle();
 			        var collapseIcon = this.$.collapseIcon;
 			        collapseIcon.icon 	= collapseIcon.icon === 'icons:expand-more'
