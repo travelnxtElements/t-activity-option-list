@@ -51,7 +51,7 @@ Example:
             <t-activity-summary
                 description="[[itinerary.description]]"
                 photo-urls="[[itinerary.photoUrls]]"
-                default-icon="[[activityIcon]]">
+                activity-icon="[[activityIcon]]">
             </t-activity-summary>
         </template>
 
@@ -202,6 +202,9 @@ Example:
 
                     //update private copy
                     this._set_itineraryId(itineraryId);
+
+                    //show hero image if images are not provided by activity
+                    this.itinerary.photoUrls = this.itinerary.photoUrls || [this.itinerary.heroImageUrl]
 
                     this.$.singleAvailApi.getActivity({
                         searchId: this.searchId,
