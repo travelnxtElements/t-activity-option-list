@@ -78,7 +78,8 @@
                 </t-dropdown>
 
 	        	<template is="dom-repeat" items="[[option.passengerTypesInfo]]">
-	        		<t-stepper 
+	        		<t-stepper
+	        			hidden$="{{_checkIfYouth(item.passengerType)}}" 
 	        			class="flex margin-bottom-medium"
 	        			min="[[item.minQuantity]]"
 	        			max="[[item.maxQuantity]]"
@@ -300,6 +301,10 @@
 			    	}
 
 			    	return 'x ' + this._currency + ' ' + this._roundOff(price.money.amount);
+			    },
+
+			    _checkIfYouth: function (passengerType) {
+			    	return passengerType.toLowerCase() === 'youth';
 			    },
 
 			    validate: function () {
