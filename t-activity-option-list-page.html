@@ -179,32 +179,6 @@ Example:
                 },
 
                 /*
-                 * event handler to call policies
-                */
-                _initiatePolicyCall: function (event) {
-                    var option = event.detail;
-
-                    var pricingRequestObj = {
-                        searchId: this.searchId,
-                        passengers: [],
-                        optionId: option.id,
-                        selectedDate: option.selectedDateTime
-                    };
-
-                    for (var i = 0; i < option.passengerTypesInfo.length; i++) {
-                        var passenger = option.passengerTypesInfo[i];
-                        pricingRequestObj.passengers.push({
-                            type: passenger.passengerType,
-                            count: passenger.quantity
-                        });
-                    }
-
-                    this.$.policy.policies = null;
-                    this._pricingRequestParams = pricingRequestObj;
-                    this.$.policy.initiatePolicyCall();
-                },
-
-                /*
                  * Event handler method called when `t-car-search-api-error` event is fired
                  */
                 observers: [
@@ -237,6 +211,32 @@ Example:
                     //initiate policy component
                     this.$.policy.initiatePolicyView();
 
+                },
+
+                /*
+                 * event handler to call policies
+                */
+                _initiatePolicyCall: function (event) {
+                    var option = event.detail;
+
+                    var pricingRequestObj = {
+                        searchId: this.searchId,
+                        passengers: [],
+                        optionId: option.id,
+                        selectedDate: option.selectedDateTime
+                    };
+
+                    for (var i = 0; i < option.passengerTypesInfo.length; i++) {
+                        var passenger = option.passengerTypesInfo[i];
+                        pricingRequestObj.passengers.push({
+                            type: passenger.passengerType,
+                            count: passenger.quantity
+                        });
+                    }
+
+                    this.$.policy.policies = null;
+                    this._pricingRequestParams = pricingRequestObj;
+                    this.$.policy.initiatePolicyCall();
                 },
 
                 _onSingleAvailSuccess: function (e) {
