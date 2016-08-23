@@ -159,7 +159,7 @@
                      */
 		        	_selectedDate: { 
 		        		type: String,
-		        		observer:'_selectedDateChanged'
+		        		observer:'__selectedDateChanged'
 		        	},
 
 			        /**
@@ -177,7 +177,7 @@
 		        },
 
 		        observers: [
-                    '_updateSelectedDate(option.selectedDateTime.date)'
+                    '__updateSelectedDate(option.selectedDateTime.date)'
 		        ],
 
 		        __pageLoad: function () {
@@ -244,7 +244,7 @@
                     this.fire('policy-click', this.option);
                 },
 
-		        _selectedDateChanged: function () {
+		        __selectedDateChanged: function () {
 		        	if (!this._selectedDate) {
 		        		return;
 		        	}
@@ -253,7 +253,7 @@
 		        	}, this);
 		        },
 
-		        _updateSelectedDate: function (date) {
+		        __updateSelectedDate: function (date) {
 		            if (date) {
 		                this._selectedDate = date;
 		            }
