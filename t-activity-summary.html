@@ -36,29 +36,22 @@ Example:
             data="[[photoUrls]]" 
             height="200">
         </t-image-carousel>
-
-        <div class="section-small">
-            <div on-tap="_toggleDesc">
-                <div class="layout horizontal">
-                    <div class="font-semi self-center">
-                        Description
-                    </div>
-                    <div class="flex"></div>
-                    <div class="secondary-text text-right">
-                        <iron-icon id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
-                    </div>
-                </div>
-            </div>
-            <iron-collapse id="collapse">
-                <div class="secondary-text">
-                    <template 
-                        is="juicy-html" 
-                        content$="[[description]]">                        
-                    </template>
-                </div>            
-            </iron-collapse>
-        </div>
-		
+		<div class="section-small">
+			<div class="layout horizontal center" on-tap="_toggleDesc">
+	            <div class="flex primary-light-text">
+	                Description
+	            </div>
+            	<iron-icon class="secondary-text text-right" id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
+	        </div>
+	        <iron-collapse id="collapse">
+	            <div class="secondary-text">
+	                <template 
+	                    is="juicy-html" 
+	                    content$="[[description]]">                        
+	                </template>
+	            </div>            
+	        </iron-collapse>
+		</div>
 	</template>
 	<script>
         (function () {
