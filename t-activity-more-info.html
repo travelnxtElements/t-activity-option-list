@@ -30,9 +30,8 @@ Example:
 		</style>
 
         <template is="dom-if" if="[[additionalText]]">
-            <div class="section-small">
                 <div on-tap="_toggle" data-type="Info">
-                    <div class="layout horizontal">
+                    <div class="section-small primary-text layout horizontal center">
                         <div class="font-semi">
                             KNOW BEFORE YOU BOOK
                         </div>
@@ -44,20 +43,18 @@ Example:
                 </div>
 
                 <iron-collapse id="collapseInfo">
-                    <div class="secondary-text">
+                    <div class="section-small secondary-text">
                         <template 
                             is="juicy-html" 
                             content$="[[additionalText]]">                        
                         </template>
                     </div>            
                 </iron-collapse>
-            </div>
         </template>
 
         <template is="dom-if" if="[[legalText]]">
-            <div class="section-small">
                 <div on-tap="_toggle" data-type="Policy">
-                    <div class="layout horizontal">
+                    <div class="section-small primary-text layout horizontal center">
                         <div class="font-semi">
                             POLICIES
                         </div>
@@ -69,20 +66,18 @@ Example:
                 </div>
 
                 <iron-collapse id="collapsePolicy">
-                    <div class="secondary-text">
+                    <div class="section-small secondary-text">
                         <template 
                             is="juicy-html" 
                             content$="[[legalText]]">                        
                         </template>
                     </div>            
                 </iron-collapse>
-            </div>
         </template>
 
         <template is="dom-if" if="[[schedule]]">
-            <div class="section-small">
                 <div on-tap="_toggle" data-type="Schedule">
-                    <div class="layout horizontal">
+                    <div class="section-small primary-text layout horizontal center">
                         <div class="font-semi">
                             SCHEDULE
                         </div>
@@ -94,14 +89,13 @@ Example:
                 </div>
 
                 <iron-collapse id="collapseSchedule">
-                    <div class="secondary-text">
+                    <div class="section-small secondary-text">
                         <template 
                             is="juicy-html" 
                             content$="[[schedule]]">                        
                         </template>
                     </div>            
                 </iron-collapse>
-            </div>
         </template>
 	</template>
 	<script>

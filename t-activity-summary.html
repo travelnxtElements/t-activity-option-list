@@ -20,40 +20,39 @@ Example:
 -->
 
 <dom-module id="t-activity-summary">
-	<template>
+    <template>
         <style include="iron-flex"></style>
         <style include="travel-element-styles">
-			:host {
-				display: block;
+            :host {
+                display: block;
                 font-family: var(--header-font-family, --primary-font-family);
                 font-size: var(--font-14, 14px);
-			}
-		</style>
-
-        <t-image-carousel
+            }
+        </style>
+        <t-image-carousel 
+            id="image-carousel"
             light-box
+            sizing="cover"
             loading-icon="[[activityIcon]]"
-            data="[[photoUrls]]" 
             height="200">
         </t-image-carousel>
-		<div class="section-small">
-			<div class="layout horizontal center" on-tap="_toggleDesc">
-	            <div class="flex primary-text">
-	                Description
-	            </div>
-            	<iron-icon class="secondary-text text-right" id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
-	        </div>
-	        <iron-collapse id="collapse">
-	            <div class="secondary-text">
-	                <template 
-	                    is="juicy-html" 
-	                    content$="[[description]]">                        
-	                </template>
-	            </div>            
-	        </iron-collapse>
-		</div>
-	</template>
-	<script>
+        <div class="section-small">
+            <div class="layout horizontal center" on-tap="_toggleDesc">
+                <div class="flex primary-text font-semi">
+                    DESCRIPTION
+                </div>
+                <iron-icon class="secondary-text text-right" id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
+            </div>
+            <iron-collapse id="collapse">
+                <div class="secondary-text">
+                    <template is="juicy-html"
+                              content$="[[description]]">
+                    </template>
+                </div>
+            </iron-collapse>
+        </div>
+    </template>
+    <script>
         (function () {
 
             'use strict'
@@ -100,10 +99,14 @@ Example:
 	                    }
 	                }
 				},
+				observers: ['_setCarouselData(photoUrls)'],
 
+				_setCarouselData: function(urls){
+				    this.querySelector('#image-carousel').data = urls;
+				},
                 /**
                  * toggles collapse state
-                */				
+                */
                 _toggleDesc: function() {
                     this.$.collapse.toggle();
                     var collapseIcon = this.$.collapseIcon;
@@ -113,5 +116,5 @@ Example:
                 }
 			});
 		})();
-	</script>
+    </script>
 </dom-module>

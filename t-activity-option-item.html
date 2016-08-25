@@ -28,88 +28,87 @@
 	            display: block;
 	            font-family: var(--header-font-family, --primary-font-family);
 	            font-size: var(--font-14, 14px);
+                -webkit-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.25);
+                -moz-box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.25);
+                box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.25);
+                border-radius: 2px;
 		        --t-button: {
 		        	padding: 7.5px 10px;
 		        }
 	        }
-	        .total {
-	            font-size: var(--font-18, 18px);
-	        }
-	        .price-secondary-label{
-	        	font-size: var(--font-12, 12px);
-	        }
 	        .min-width {
 	        	min-width: 10px;
 	        }
+            .section-header-option {
+                padding: 0 10px 5px 10px;
+	        	position: relative;
+	        }
+            :host[opened] .floating-price {
+                opacity: 0;
+            }
         </style>
 
         <iron-signals on-iron-signal-collapse-activity-option="_collapseOption"></iron-signals>
-    
-    	<div class="section-small">
-			
-			<div on-tap="_toggle">
-		        <div class="layout horizontal">
-		        	<div class="font-semi self-center">
-		        		[[option.name]]
-		        	</div>
-		        	<div class="flex min-width"></div>
-			    	<div class="total">
-			        	<div class="secondary-text text-right">
-			        		<iron-icon id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
-			        	</div>
-			    		<div class="font-semi primary-text">[[_currency]]&nbsp;[[_totalPrice]]</div>
-			    	</div>
-		        </div>
-			</div>
 
-	        <iron-collapse id="collapse" opened={{opened}}>
 
-        		<div class="margin-bottom-medium"></div>
+        <div class="layout horizontal section-header-option section-small" on-tap="_toggle">
+            <div class="font-semi primary-text">
+                <div class="margin-bottom"></div>
+                <div>[[option.name]]</div>
+            </div>
+            <div class="flex min-width"></div>
+            <div class="total font-18">
+                <div class="secondary-text text-right">
+                    <iron-icon id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
+                </div>
+                <div class="font-semi primary-text floating-price">[[_currency]]&nbsp;[[_totalPrice]]</div>
+            </div>
+        </div>
 
-                <t-dropdown
-                	id="date"
-                	required
-                	label="Date"
-                	class="margin-bottom-large"
-                	error-message="Select date" 
-                	selected-item="{{_selectedDate}}"
-                	dropdown-array="[[_dates]]" 
-                	required>
+        <iron-collapse id="collapse" opened="{{opened}}">
+
+            <div class="section-small border-bottom">
+
+                <t-dropdown id="date"
+                            required
+                            label="Date"
+                            class="margin-bottom-large"
+                            error-message="Select date"
+                            selected-item="{{_selectedDate}}"
+                            dropdown-array="[[_dates]]"
+                            required>
                 </t-dropdown>
 
-	        	<template is="dom-repeat" items="[[option.passengerTypesInfo]]">
-	        		<t-stepper
-	        			hidden$="{{_checkIfYouth(item.passengerType)}}" 
-	        			class="flex margin-bottom-medium"
-	        			min="[[item.minQuantity]]"
-	        			max="[[item.maxQuantity]]"
-	        			plural-label="[[item.multiplePassengerType]]"
-	        			singular-label="[[item.passengerType]]"
-	        			secondary-label="{{_getSecondaryLabel(item)}}"
-	        			count="{{item.quantity}}"
-	        			id="[[item.passengerType]]Count"
-	        			on-count-changed="_onPaxCountChange">
-	        			<span class="primary-text font-semi price-secondary-label">
-	        				{{_getPaxPrice(item.fare.components)}}
-	        			</span>
-	    			</t-stepper>
-	        	</template>
+                <template is="dom-repeat" items="[[option.passengerTypesInfo]]">
+                    <t-stepper hidden$="{{_checkIfYouth(item.passengerType)}}"
+                               class="flex margin-bottom-medium"
+                               min="[[item.minQuantity]]"
+                               max="[[item.maxQuantity]]"
+                               plural-label="[[item.multiplePassengerType]]"
+                               singular-label="[[item.passengerType]]"
+                               secondary-label="{{_getSecondaryLabel(item)}}"
+                               count="{{item.quantity}}"
+                               id="[[item.passengerType]]Count"
+                               on-count-changed="_onPaxCountChange">
+                        <span class="primary-text font-semi price-secondary-label font-12">
+                            {{_getPaxPrice(item.fare.components)}}
+                        </span>
+                    </t-stepper>
+                </template>
+            </div>
+            <div class="section-small">
+                <div class="layout horizontal total margin-bottom-medium font-18">
+                    <div class="secondary-text flex">Total with Taxes</div>
+                    <div class="font-semi primary-text">[[_currency]]&nbsp;[[_totalPrice]]</div>
+                </div>
 
-	        	<div class="border-bottom margin-bottom-medium"></div>
-
-		    	<div class="layout horizontal total margin-bottom-medium">
-		    		<div class="secondary-text">Total with Taxes</div>
-		    		<div class="secondary-text flex"></div>
-		    		<div class="font-semi primary-text">[[_currency]]&nbsp;[[_totalPrice]]</div>
-		    	</div>
-
-		    	<div class="layout horizontal end">
-	    			<label id="policy-label" class="link-style font-12" on-tap="_policyClick">Policy</label>
-		    		<div class="flex"></div>
-	    			<t-button id="book" label="book" class="primary" on-tap="_onOptionSelect"></t-button>
-		    	</div>
-	        </iron-collapse>
-		</div>
+                <div class="layout horizontal end">
+                    <label id="policy-label" class="link-style font-12" on-tap="_policyClick">Policy</label>
+                    <div class="flex"></div>
+                    <t-button id="book" label="book" class="primary" on-tap="_onOptionSelect"></t-button>
+                </div>
+            </div>
+        </iron-collapse>
 
     </template>
     <script>
@@ -124,6 +123,14 @@
 		        is: 't-activity-option-item',
 
 		        properties: {
+
+		            /*
+                     * <p>This property holds value of activity option</p>
+                     */
+		            opened: {
+		                type: Boolean,
+		                reflectToAttribute: true
+		            },
 
                     /*
                      * <p>This property holds value of activity option</p>

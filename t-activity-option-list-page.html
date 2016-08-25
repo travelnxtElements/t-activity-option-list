@@ -34,42 +34,34 @@ Example:
                 font-family: var(--header-font-family, --primary-font-family);
                 font-size: var(--font-14, 14px);
             }
-            .options {
-                font-size: var(--font-18, 18px);
-            }
-            .list-item-half {
-                width:50%;
-                box-sizing: border-box;
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
+            .item {
+                margin: var(--normal-spacing, 10px);
             }
         </style>
 
         <content></content>
 
         <template is="dom-if" if="[[itinerary.description]]">
-            <t-activity-summary
-                description="[[itinerary.description]]"
-                photo-urls="[[itinerary.photoUrls]]"
-                activity-icon="[[activityIcon]]">
+            <t-activity-summary description="[[itinerary.description]]"
+                                photo-urls="[[itinerary.photoUrls]]"
+                                activity-icon="[[activityIcon]]">
             </t-activity-summary>
         </template>
 
         <t-policy id="policy"
-            external-link
-            label="Policies"
-            api-relative-url="api/ShoppingCart/add"
-            api-base-url="[[apiBaseUrl]]"
-            auth-token="[[authToken]]"
-            header-icon="[[headerBackIcon]]"
-            policy-request="[[policyRequest]]"
-            inventory-id="[[itineraryId]]">
+                  external-link
+                  label="Policies"
+                  api-relative-url="api/ShoppingCart/add"
+                  api-base-url="[[apiBaseUrl]]"
+                  auth-token="[[authToken]]"
+                  header-icon="[[headerBackIcon]]"
+                  policy-request="[[policyRequest]]"
+                  inventory-id="[[itineraryId]]">
         </t-policy>
 
-        <t-activity-pricing-translator
-             id="pricingTranslator"
-             input="[[_pricingRequestParams]]"
-             output="{{policyRequest}}">
+        <t-activity-pricing-translator id="pricingTranslator"
+                                       input="[[_pricingRequestParams]]"
+                                       output="{{policyRequest}}">
         </t-activity-pricing-translator>
 
         <template is="dom-if" if="[[itinerary.options.length]]">
@@ -79,39 +71,38 @@ Example:
         </template>
 
         <template id="list" is="dom-repeat" items="[[itinerary.options]]">
-            <t-activity-option-item 
-                option=[[item]]
-                on-option-selected="_onOptionSelect">
+            <t-activity-option-item class="item" option=[[item]]
+                                    on-option-selected="_onOptionSelect">
             </t-activity-option-item>
         </template>
 
         <template is="dom-if" if="[[_moreOptions.length]]">
-            <div class="section-small border-top border-bottom" on-tap="_showAllOptions">
-                <div class="text-center link-style">[[_moreOptions.length]] MORE OPTIONS</div>
-            </div>            
+            <div class="section-small">
+                <div class="border-bottom"></div>
+                <div class="section-small border-top border-bottom" on-tap="_showAllOptions">
+                    <div class="text-center link-style">[[_moreOptions.length]] MORE OPTIONS</div>
+                </div>
+            </div>
         </template>
 
-        <t-activity-more-info
-            additional-text="[[itinerary.additionalText]]"
-            legal-text="[[itinerary.legalText]]"
-            schedule="[[itinerary.schedule]]">                
+        <t-activity-more-info additional-text="[[itinerary.additionalText]]"
+                              legal-text="[[itinerary.legalText]]"
+                              schedule="[[itinerary.schedule]]">
         </t-activity-more-info>
 
-        <t-activity-single-avail-api
-            id="singleAvailApi" 
-            loading={{loading}} 
-            api-base-url="[[apiBaseUrl]]"
-            api-relative-url="api/activity/results/single" 
-            auth-token="[[authToken]]"
-            on-t-activity-single-avail-api-success="_onSingleAvailSuccess"
-            on-t-activity-single-avail-api-error="_onSingleAvailError">
+        <t-activity-single-avail-api id="singleAvailApi"
+                                     loading={{loading}}
+                                     api-base-url="[[apiBaseUrl]]"
+                                     api-relative-url="api/activity/results/single"
+                                     auth-token="[[authToken]]"
+                                     on-t-activity-single-avail-api-success="_onSingleAvailSuccess"
+                                     on-t-activity-single-avail-api-error="_onSingleAvailError">
         </t-activity-single-avail-api>
 
-        <t-sessionstorage
-            id="sessionStore"
-            key="Activitie_Option_Data"
-            api-url-format="[[apiUrlFormat]]"
-            on-t-sessionstorage-load-success="_onSessionLoad">
+        <t-sessionstorage id="sessionStore"
+                          key="Activitie_Option_Data"
+                          api-url-format="[[apiUrlFormat]]"
+                          on-t-sessionstorage-load-success="_onSessionLoad">
         </t-sessionstorage>
     </template>
 
@@ -262,7 +253,7 @@ Example:
                 },
 
                 _onSingleAvailError: function (e) {
-                    
+
                 },
 
                 _onOptionSelect: function (e) {
