@@ -27,6 +27,12 @@ Example:
                 font-family: var(--header-font-family, --primary-font-family);
                 font-size: var(--font-14, 14px);
 			}
+            .border-bottom{
+                margin: 0 var(--normal-spacing,10px);
+            }
+            .border-bottom:last-of-type{
+                display: none;
+            }
 		</style>
 
         <template is="dom-if" if="[[additionalText]]">
@@ -50,6 +56,7 @@ Example:
                         </template>
                     </div>            
                 </iron-collapse>
+                <div class="border-bottom"></div>
         </template>
 
         <template is="dom-if" if="[[legalText]]">
@@ -73,6 +80,7 @@ Example:
                         </template>
                     </div>            
                 </iron-collapse>
+                <div class="border-bottom"></div>
         </template>
 
         <template is="dom-if" if="[[schedule]]">
@@ -96,6 +104,7 @@ Example:
                         </template>
                     </div>            
                 </iron-collapse>
+                <div class="border-bottom"></div>
         </template>
 	</template>
 	<script>
