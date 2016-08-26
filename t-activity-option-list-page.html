@@ -8,6 +8,7 @@
 <link rel="import" href="t-activity-option-item.html">
 <link rel="import" href="t-activity-more-info.html">
 <link rel="import" href="t-activity-summary.html">
+<link rel="import" href="../t-behavior/t-session-behavior.html"/>
 <!--
 A comment describing this element
 
@@ -99,10 +100,11 @@ Example:
                                      on-t-activity-single-avail-api-error="_onSingleAvailError">
         </t-activity-single-avail-api>
 
-        <t-sessionstorage id="sessionStore"
-                          key="Activitie_Option_Data"
-                          api-url-format="[[apiUrlFormat]]"
-                          on-t-sessionstorage-load-success="_onSessionLoad">
+        <t-sessionstorage
+            id="sessionStore"
+            api-url-format="[[apiUrlFormat]]"
+            on-t-sessionstorage-load-success="_onSessionGet"
+            on-t-sessionstorage-save-success="_onSessionSave">
         </t-sessionstorage>
     </template>
 
@@ -117,7 +119,8 @@ Example:
 
                 behaviors: [
                     TravelNxt.Behaviors.PageBehavior,
-                    TravelNxt.Behaviors.ActivityPageBehavior
+                    TravelNxt.Behaviors.ActivityPageBehavior,
+                    TravelNxt.Behaviors.SessionBehavior
                 ],
 
                 listeners: {
@@ -125,22 +128,6 @@ Example:
                 },
 
                 properties: {
-
-                    /*
-                     * This property holds the value of currency
-                     */
-                    itinerary: {
-                        type: Object,
-                        notify: true
-                    },
-
-                    /*
-                     * Private search id copy to detect search id change from search page
-                    */
-                    _itineraryId: {
-                        type: String,
-                        readOnly: true
-                    },
 
                     /**
                      * _pricingRequestParams is an object containing properties for basic pricing call
@@ -165,30 +152,36 @@ Example:
                     }
                 },
 
+                listeners: {
+                    'session-sync-complete': '_updateItineraryId'
+                },
+
                 /*
                  * Event handler method called when `t-car-search-api-error` event is fired
                  */
                 observers: [
-                    '__pageLoad(visible, itineraryId)'
+                    '__pageLoad(visible)',
+                    '__updatePage(itineraryId)'
                 ],
 
                 /*
                  * Event handler method called when `t-car-search-api-error` event is fired
                  */
-                __pageLoad: function (visible, itineraryId) {
-                    if (!visible || !itineraryId) {
+                __pageLoad: function (visible) {
+                    if (!visible) {
                         return;
                     }
 
-                    //route has been called again, data is already present
-                    if (this._itineraryId === itineraryId) {
-                        return;
+                    this._syncSession();
+                },
+
+                __updatePage: function (itineraryId) {
+
+                    if (!itineraryId) {
+                        this.fire('go-to-search');
                     }
 
                     this._moreOptions = [];
-
-                    //update private copy
-                    this._set_itineraryId(itineraryId);
 
                     //show hero image if images are not provided by activity
                     this.itinerary.photoUrls = this.itinerary.photoUrls || [this.itinerary.heroImageUrl]
@@ -200,7 +193,11 @@ Example:
 
                     //initiate policy component
                     this.$.policy.initiatePolicyView();
+                    
+                },
 
+                _updateItineraryId: function () {
+                    this.itineraryId = this.itinerary.id;
                 },
 
                 /*
@@ -258,8 +255,15 @@ Example:
 
                 _onOptionSelect: function (e) {
                     if (e.detail) {
-                        this.$.sessionStore.value = e.detail;
-                        this.$.sessionStore.save();
+
+                        this._data = [{
+                            key: 'Activitie_Option',
+                            propertyName: 'selectedOption',
+                            value: e.detail
+                        }];
+
+                        this.setSession();
+
                         this.fire('option-select', e.detail);
                     }
                 },
@@ -276,6 +280,21 @@ Example:
                         }
                         this._moreOptions = [];
                     }
+                },
+
+                _syncSession: function () {
+                    this._data = [{
+                        key: 'Activitie_Search_Criteria',
+                        propertyName: 'searchCriteria'
+                    }, {
+                        key: 'Activitie_Search_Id',
+                        propertyName: 'searchId'
+                    }, {
+                        key: 'Activitie_Itinerary',
+                        propertyName: 'itinerary'
+                    }];
+
+                    this.getSession();
                 }
 
             });
