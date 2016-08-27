@@ -256,9 +256,10 @@ Example:
                 _onOptionSelect: function (e) {
                     if (e.detail) {
 
+                        this.selectedOption = e.detail;
+
                         this._data = [{
                             key: 'Activitie_Option',
-                            propertyName: 'selectedOption',
                             value: e.detail
                         }];
 
