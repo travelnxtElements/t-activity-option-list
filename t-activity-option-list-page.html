@@ -92,12 +92,12 @@ Example:
         </t-activity-more-info>
 
         <t-activity-single-avail-api id="singleAvailApi"
-                                     loading={{loading}}
-                                     api-base-url="[[apiBaseUrl]]"
-                                     api-relative-url="api/activity/results/single"
-                                     auth-token="[[authToken]]"
-                                     on-t-activity-single-avail-api-success="_onSingleAvailSuccess"
-                                     on-t-activity-single-avail-api-error="_onSingleAvailError">
+             loading={{loading}}
+             api-base-url="[[apiBaseUrl]]"
+             api-relative-url="api/activity/results/single"
+             auth-token="[[authToken]]"
+             on-t-activity-single-avail-api-success="_onSingleAvailSuccess"
+             on-t-activity-single-avail-api-error="_onSingleAvailError">
         </t-activity-single-avail-api>
 
         <t-sessionstorage
@@ -123,10 +123,6 @@ Example:
                     TravelNxt.Behaviors.SessionBehavior
                 ],
 
-                listeners: {
-                    'policy-click': '_initiatePolicyCall'
-                },
-
                 properties: {
 
                     /**
@@ -146,6 +142,9 @@ Example:
                         value: []
                     },
 
+                    /*
+                     * These many options will be populated in more options array
+                    */
                     noOfOptionsVisible: {
                         type: Number,
                         value: 4
@@ -153,11 +152,12 @@ Example:
                 },
 
                 listeners: {
+                    'policy-click': '_initiatePolicyCall',
                     'session-sync-complete': '_updateItineraryId'
                 },
 
                 /*
-                 * Event handler method called when `t-car-search-api-error` event is fired
+                 * Observer methods
                  */
                 observers: [
                     '__pageLoad(visible)',
