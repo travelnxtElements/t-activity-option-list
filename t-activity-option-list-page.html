@@ -60,6 +60,13 @@ Example:
                   inventory-id="[[itineraryId]]">
         </t-policy>
 
+        <div class="loader-section section-small" id="loaderContainer" hidden$="[[!loading]]">
+            <p class="text-center margin-bottom-medium">Please wait while we are fetching your selected itinerary.</p>
+            <div class="layout horizontal center-justified">
+                <t-loader id="loader" active></t-loader>
+            </div>
+        </div>
+
         <t-activity-pricing-translator id="pricingTranslator"
                                        input="[[_pricingRequestParams]]"
                                        output="{{policyRequest}}">
@@ -148,7 +155,9 @@ Example:
                     noOfOptionsVisible: {
                         type: Number,
                         value: 4
-                    }
+                    },
+
+                    loading: Boolean
                 },
 
                 listeners: {
