@@ -182,6 +182,12 @@ Example:
                     }
 
                     this._syncSession();
+
+                    try{
+                        this.querySelector('#image-carousel').runSetUp();
+                    } catch (e) {
+                        console.log(e);
+                    }
                 },
 
                 __updatePage: function (itineraryId) {
