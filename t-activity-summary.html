@@ -28,14 +28,21 @@ Example:
                 font-family: var(--header-font-family, --primary-font-family);
                 font-size: var(--font-14, 14px);
             }
+            .image {
+                display: block;
+            }
         </style>
         <t-image-carousel 
             id="image-carousel"
             light-box
             sizing="cover"
+            auto-slide-interval="300000"
             loading-icon="[[activityIcon]]"
             height="220">
         </t-image-carousel>
+        <template is="dom-if" if="[[!photoUrls.length]]">
+            <t-image loading-icon="[[activityIcon]]" sizing="cover" class="border-bottom image" height="220"></t-image>
+        </template>
         <div class="section-small">
             <div class="layout horizontal center" on-tap="_toggleDesc">
                 <div class="flex primary-text font-semi">
