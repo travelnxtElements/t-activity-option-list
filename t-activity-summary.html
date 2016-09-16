@@ -31,18 +31,32 @@ Example:
             .image {
                 display: block;
             }
+            .category-container {
+                position: relative;
+            }
+            .category {
+                max-width: 80%;
+                color: var(--option-list-category-color, #fff);
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                padding: 10px;
+            }
         </style>
-        <t-image-carousel 
-            id="image-carousel"
-            light-box
-            sizing="cover"
-            auto-slide-interval="300000"
-            loading-icon="[[activityIcon]]"
-            height="220">
-        </t-image-carousel>
-        <template is="dom-if" if="[[!photoUrls.length]]">
-            <t-image loading-icon="[[activityIcon]]" sizing="cover" class="border-bottom image" height="220"></t-image>
-        </template>
+        <div class="category-container">
+            <t-image-carousel 
+                id="image-carousel"
+                light-box
+                sizing="cover"
+                auto-slide-interval="300000"
+                loading-icon="[[activityIcon]]"
+                height="220">
+            </t-image-carousel>
+            <template is="dom-if" if="[[!photoUrls.length]]">
+                <t-image loading-icon="[[activityIcon]]" sizing="cover" class="border-bottom image" height="220"></t-image>
+            </template>
+            <div class="category font-14">[[category]]</div>
+        </div>
         <div class="section-small">
             <div class="layout horizontal center" on-tap="_toggleDesc">
                 <div class="flex primary-text font-semi">

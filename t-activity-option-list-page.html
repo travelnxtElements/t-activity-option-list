@@ -37,27 +37,39 @@ Example:
             }
             .item {
                 margin: var(--normal-spacing, 10px);
+                margin-bottom: 15px;
+            }
+            .item:last-of-type{
+                margin-bottom: 10px;
+            }
+            .more-option-text {
+                line-height: 10px;
+            }
+            .option-text {
+                padding-bottom: 0;
             }
         </style>
 
         <content></content>
 
         <template is="dom-if" if="[[itinerary.description]]">
-            <t-activity-summary description="[[itinerary.description]]"
-                                photo-urls="[[itinerary.photoUrls]]"
-                                activity-icon="[[activityIcon]]">
+            <t-activity-summary 
+                description="[[itinerary.description]]"
+                photo-urls="[[itinerary.photoUrls]]"
+                activity-icon="[[activityIcon]]"
+                category="[[itinerary.category.name]]">
             </t-activity-summary>
         </template>
 
         <t-policy id="policy"
-                  external-link
-                  label="Policies"
-                  api-relative-url="api/ShoppingCart/add"
-                  api-base-url="[[apiBaseUrl]]"
-                  auth-token="[[authToken]]"
-                  header-icon="[[headerBackIcon]]"
-                  policy-request="[[policyRequest]]"
-                  inventory-id="[[itineraryId]]">
+            external-link
+            label="Policies"
+            api-relative-url="api/ShoppingCart/add"
+            api-base-url="[[apiBaseUrl]]"
+            auth-token="[[authToken]]"
+            header-icon="[[headerBackIcon]]"
+            policy-request="[[policyRequest]]"
+            inventory-id="[[itineraryId]]">
         </t-policy>
 
         <div class="loader-section section-small" id="loaderContainer" hidden$="[[!loading]]">
@@ -73,8 +85,8 @@ Example:
         </t-activity-pricing-translator>
 
         <template is="dom-if" if="[[itinerary.options.length]]">
-            <div class="section-small font-16 font-semi primary-text">
-                Options &nbsp; (<span class="font-14">[[itinerary.category.name]]</span>)
+            <div class="section-small font-16 font-semi primary-text option-text">
+                Options 
             </div>
         </template>
 
@@ -88,7 +100,7 @@ Example:
             <div class="section-small">
                 <div class="border-bottom"></div>
                 <div class="section-small border-top border-bottom" on-tap="_showAllOptions">
-                    <div class="text-center link-style">[[_moreOptions.length]] MORE OPTIONS</div>
+                    <div class="text-center link-style font-12 more-option-text">[[_moreOptions.length]] MORE OPTIONS</div>
                 </div>
             </div>
         </template>
@@ -194,6 +206,7 @@ Example:
 
                     if (!itineraryId) {
                         this.fire('go-to-search');
+                        return;
                     }
 
                     this._moreOptions = [];

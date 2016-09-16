@@ -86,7 +86,8 @@
                 	inventoryId: data.itineraryId
                 };
 
-                if (this._validateApiMeta()) {                
+                if (this._validateApiMeta()) { 
+                    this._setLoading(true);
                     this.$.ajaxCall.url = this._getUrl();
                     this.$.ajaxCall.body = JSON.stringify(request);
                     this.$.ajaxCall.generateRequest();

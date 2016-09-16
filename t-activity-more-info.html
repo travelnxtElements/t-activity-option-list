@@ -33,11 +33,14 @@ Example:
             .border-bottom:last-of-type{
                 display: none;
             }
+            .section-small-item {
+                padding: 5px 10px;
+            }
 		</style>
 
         <template is="dom-if" if="[[additionalText]]">
                 <div on-tap="_toggle" data-type="Info">
-                    <div class="section-small primary-text layout horizontal center">
+                    <div class="section-small-item primary-text layout horizontal center">
                         <div class="font-semi">
                             KNOW BEFORE YOU BOOK
                         </div>
@@ -61,7 +64,7 @@ Example:
 
         <template is="dom-if" if="[[legalText]]">
                 <div on-tap="_toggle" data-type="Policy">
-                    <div class="section-small primary-text layout horizontal center">
+                    <div class="section-small-item primary-text layout horizontal center">
                         <div class="font-semi">
                             POLICIES
                         </div>
@@ -85,7 +88,7 @@ Example:
 
         <template is="dom-if" if="[[schedule]]">
                 <div on-tap="_toggle" data-type="Schedule">
-                    <div class="section-small primary-text layout horizontal center">
+                    <div class="section-small-item primary-text layout horizontal center">
                         <div class="font-semi">
                             SCHEDULE
                         </div>
