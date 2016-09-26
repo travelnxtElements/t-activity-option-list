@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../t-text-container/travel-element-styles.html">
-<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../t-collapse/t-collapse.html">
 <link rel="import" href="../juicy-html/juicy-html.html">
 <!--
 A comment describing this element
@@ -33,80 +33,63 @@ Example:
             .border-bottom:last-of-type{
                 display: none;
             }
-            .section-small-item {
-                padding: 5px 10px;
+            .section-vertical{
+                padding: 10px 0;
+            }
+            .section-side{
+                padding: 0 10px;
             }
 		</style>
 
         <template is="dom-if" if="[[additionalText]]">
-                <div on-tap="_toggle" data-type="Info">
-                    <div class="section-small-item primary-text layout horizontal center">
-                        <div class="font-semi">
-                            KNOW BEFORE YOU BOOK
+                <div class="section-side margin-bottom">
+                    <t-collapse collapse-height="87">
+                        <div class="primary-text font-semi header section-vertical">
+                                    KNOW BEFORE YOU BOOK
                         </div>
-                        <div class="flex"></div>
-                        <div class="secondary-text text-right">
-                            <iron-icon id="collapseIconInfo" icon="[[collapseIcon.expand]]"></iron-icon>
+                        <div class="secondary-text body">
+                            <template 
+                                is="juicy-html" 
+                                content$="[[additionalText]]">                        
+                            </template>
                         </div>
-                    </div>
-                </div>
-
-                <iron-collapse id="collapseInfo">
-                    <div class="section-small secondary-text">
-                        <template 
-                            is="juicy-html" 
-                            content$="[[additionalText]]">                        
-                        </template>
-                    </div>            
-                </iron-collapse>
+                    </t-collapse>
+                </div>            
                 <div class="border-bottom"></div>
         </template>
 
         <template is="dom-if" if="[[legalText]]">
-                <div on-tap="_toggle" data-type="Policy">
-                    <div class="section-small-item primary-text layout horizontal center">
-                        <div class="font-semi">
+                
+                <div class="section-side margin-bottom">
+                    <t-collapse collapse-height="87">
+                        <div class="primary-text font-semi header section-vertical">
                             POLICIES
                         </div>
-                        <div class="flex"></div>
-                        <div class="secondary-text text-right">
-                            <iron-icon id="collapseIconPolicy" icon="[[collapseIcon.expand]]"></iron-icon>
-                        </div>
-                    </div>
-                </div>
-
-                <iron-collapse id="collapsePolicy">
-                    <div class="section-small secondary-text">
-                        <template 
-                            is="juicy-html" 
-                            content$="[[legalText]]">                        
-                        </template>
-                    </div>            
-                </iron-collapse>
+                        <div class="secondary-text body">
+                            <template 
+                                is="juicy-html" 
+                                content$="[[legalText]]">                        
+                            </template>
+                        </div>            
+                    </t-collapse>
+                </div>            
                 <div class="border-bottom"></div>
         </template>
 
         <template is="dom-if" if="[[schedule]]">
-                <div on-tap="_toggle" data-type="Schedule">
-                    <div class="section-small-item primary-text layout horizontal center">
-                        <div class="font-semi">
+                <div class="section-side margin-bottom">
+                    <t-collapse collapse-height="87">
+                        <div class="primary-text font-semi header section-vertical">
                             SCHEDULE
                         </div>
-                        <div class="flex"></div>
-                        <div class="secondary-text text-right">
-                            <iron-icon id="collapseIconSchedule" icon="[[collapseIcon.expand]]"></iron-icon>
-                        </div>
-                    </div>
-                </div>
-
-                <iron-collapse id="collapseSchedule">
-                    <div class="section-small secondary-text">
-                        <template 
+                        <div class="secondary-text body">
+                            <template 
                             is="juicy-html" 
                             content$="[[schedule]]">                        
-                        </template>
-                    </div>            
-                </iron-collapse>
+                            </template>
+                        </div>            
+                    </t-collapse>
+                </div>            
                 <div class="border-bottom"></div>
         </template>
 	</template>
@@ -143,36 +126,8 @@ Example:
 	                */
 					schedule: {
 						type: String
-					},
-
-	                /**
-	                 * Stores possible values of collapse icons.
-	                */
-	                collapseIcon: {
-	                    type: Object,
-	                    value: function() {
-	                        return {
-	                            expand: 'icons:expand-more',
-	                            collapse: 'icons:expand-less'
-	                        };
-	                    }
-	                }
-				},
-
-                /**
-                 * toggles collapse state
-                */				
-                _toggle: function(e) {
-
-                	//type to toggle clicked collpase section
-                	var type = e.currentTarget.getAttribute('data-type');
-                	
-                    Polymer.dom(this.root).querySelector("#collapse" + type).toggle();
-                    var collapseIcon = Polymer.dom(this.root).querySelector("#collapseIcon" + type);
-                    collapseIcon.icon   = collapseIcon.icon === 'icons:expand-more'
-                                        ? 'icons:expand-less'
-                                        : 'icons:expand-more';
-                }
+					}
+				}
 			});
 		})();
 	</script>

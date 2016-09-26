@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../t-text-container/travel-element-styles.html">
-<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../t-collapse/t-collapse.html">
 <link rel="import" href="../juicy-html/juicy-html.html">
 <link rel="import" href="../t-carousel/t-image-carousel.html">
 <!--
@@ -34,6 +34,12 @@ Example:
             .category-container {
                 position: relative;
             }
+            .section-vertical{
+                padding: 10px 0;
+            }
+            .section-side{
+                padding: 0 10px;
+            }
             .category {
                 max-width: 80%;
                 color: var(--option-list-category-color, #fff);
@@ -57,20 +63,20 @@ Example:
             </template>
             <div class="category font-14">[[category]]</div>
         </div>
-        <div class="section-small">
-            <div class="layout horizontal center" on-tap="_toggleDesc">
-                <div class="flex primary-text font-semi">
-                    DESCRIPTION
-                </div>
-                <iron-icon class="secondary-text text-right" id="collapseIcon" icon="[[collapseIcon.expand]]"></iron-icon>
-            </div>
-            <iron-collapse id="collapse">
-                <div class="secondary-text">
+
+        <div class="section-side">
+            <t-collapse collapse-height="87">
+                <div class="primary-text font-semi header section-vertical">DESCRIPTION</div>
+                <div class="secondary-text body">
                     <template is="juicy-html"
                               content$="[[description]]">
                     </template>
                 </div>
-            </iron-collapse>
+            </t-collapse>
+        </div>
+
+        <div class="section-small">
+            <div class="border-bottom"></div>
         </div>
     </template>
     <script>
@@ -105,36 +111,13 @@ Example:
 	                */
 					photoUrls: {
 						type: Array
-					},
-
-	                /**
-	                 * Stores possible values of collapse icons.
-	                */
-	                collapseIcon: {
-	                    type: Object,
-	                    value: function() {
-	                        return {
-	                            expand: 'icons:expand-more',
-	                            collapse: 'icons:expand-less'
-	                        };
-	                    }
-	                }
+					}
 				},
 				observers: ['_setCarouselData(photoUrls)'],
 
 				_setCarouselData: function(urls){
 				    this.querySelector('#image-carousel').data = urls;
-				},
-                /**
-                 * toggles collapse state
-                */
-                _toggleDesc: function() {
-                    this.$.collapse.toggle();
-                    var collapseIcon = this.$.collapseIcon;
-                    collapseIcon.icon   = collapseIcon.icon === 'icons:expand-more'
-                                        ? 'icons:expand-less'
-                                        : 'icons:expand-more';
-                }
+				}
 			});
 		})();
     </script>
