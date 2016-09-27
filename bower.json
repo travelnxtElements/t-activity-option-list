@@ -21,7 +21,7 @@
     "t-carousel": "atomelements/t-carousel#^1.1.1",
     "t-behavior": "travelnxtelements/t-behavior",
     "iron-signals": "PolymerElements/iron-signals#^1.0.3",
-    "t-collapse": "atomelements/t-collapse#^0.1.0"
+    "t-collapse": "atomelements/t-collapse#^0.2.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
