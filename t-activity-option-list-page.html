@@ -65,14 +65,16 @@ Example:
         </template>
 
         <t-policy id="policy"
-            external-link
-            label="Policies"
-            api-relative-url="api/ShoppingCart/add"
-            api-base-url="[[apiBaseUrl]]"
-            auth-token="[[authToken]]"
-            header-icon="[[headerBackIcon]]"
-            policy-request="[[policyRequest]]"
-            inventory-id="[[itineraryId]]">
+                  external-link
+                  label="Policies"
+                  show-other-policies
+                  other-policies-label="Cancellation Policies"
+                  api-relative-url="api/ShoppingCart/add"
+                  api-base-url="[[apiBaseUrl]]"
+                  auth-token="[[authToken]]"
+                  header-icon="[[headerBackIcon]]"
+                  policy-request="[[policyRequest]]"
+                  inventory-id="[[itineraryId]]">
         </t-policy>
 
         <div class="loader-section section-small" id="loaderContainer" hidden$="[[!loading]]">
